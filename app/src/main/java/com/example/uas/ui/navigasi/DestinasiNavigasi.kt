@@ -34,3 +34,26 @@ object DestinasiUpdateFilm : DestinasiNavigasi {
     override val titleRes = "Update Film"
 }
 
+//STUDIO
+object DestinasiDetailStudio : DestinasiNavigasi {
+    override val route = "detailstudio"
+    override val titleRes = "Detail Studio"
+    const val id_studio = "id_studio"
+    val routeWithArgs = "$route/{$id_studio}"
+}
+
+object DestinasiHomeStudio : DestinasiNavigasi {
+    override val route = "homestudio"
+    override val titleRes = "Home Studio"
+}
+
+object DestinasiInsertStudio : DestinasiNavigasi {
+    override val route = "insertstudio"
+    override val titleRes = "Insert Studio"
+}
+
+object DestinasiUpdateStudio : DestinasiNavigasi {
+    override val route = "updatestudio"
+    override val titleRes = "Update Studio"
+}
+
