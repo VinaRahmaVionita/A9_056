@@ -216,6 +216,63 @@ fun PengelolaHalaman(
             }
         }
 
-
+        //PENAYANGAN
+        composable(DestinasiHomePenayangan.route) {
+            HomeTayangView(
+                navigateToItemEntry = { navController.navigate(DestinasiInsertPenayangan.route) },
+                onDetailClick = {id_penayangan ->
+                    navController.navigate("${DestinasiDetailPenayangan.route}/$id_penayangan")
+                }
+            )
+        }
+        composable(DestinasiInsertPenayangan.route) {
+            InsertTayangView(navigateBack = {
+                navController.navigate(DestinasiHomePenayangan.route) {
+                    popUpTo(DestinasiHomePenayangan.route) {
+                        inclusive = true
+                    }
+                }
+            })
+        }
+        composable(
+            DestinasiDetailPenayangan.routeWithArgs,
+            arguments = listOf(
+                navArgument(DestinasiDetailPenayangan.id_penayangan){
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            val id_penayangan = it.arguments?.getString(DestinasiDetailPenayangan.id_penayangan)
+            id_penayangan?.let {
+                DetailTayangView(
+                    NavigateBack = {
+                        navController.navigate(DestinasiHomePenayangan.route) {
+                            popUpTo(DestinasiHomePenayangan.route) {
+                                inclusive = true
+                            }
+                        }
+                    },
+                    onEditClick =  {
+                        navController.navigate("${DestinasiUpdatePenayangan.route}/$it")
+                    },
+                    onTiketClick = {
+                        navController.navigate("${DestinasiInsertTiket.route}/$id_penayangan")
+                    },
+                    onDeleteClick = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+        }
+        composable("${DestinasiUpdatePenayangan.route}/{id_penayangan}") { navBackStackEntry ->
+            val id_penayangan = navBackStackEntry.arguments?.getString("id_penayangan")
+            id_penayangan?.let {
+                UpdateTayangView(
+                    id_penayangan =it,
+                    onBack = { navController.popBackStack() },
+                    onNavigate = { navController.popBackStack() }
+                )
+            }
+        }
     }
 }
