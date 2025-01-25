@@ -160,6 +160,62 @@ fun PengelolaHalaman(
             }
         }
 
+        //TIKET
+        composable(DestinasiHomeTiket.route) {
+            HomeTiketView(
+                navigateToItemEntry = { navController.navigate(DestinasiInsertTiket.route) },
+                onDetailClick = {id_tiket ->
+                    navController.navigate("${DestinasiDetailTiket.route}/$id_tiket")
+                }
+            )
+        }
+        composable(DestinasiInsertTiket.route) {
+            InsertTiketView(navigateBack = {
+                navController.navigate(DestinasiHomeTiket.route) {
+                    popUpTo(DestinasiHomeTiket.route) {
+                        inclusive = true
+                    }
+                }
+            })
+        }
+        composable(
+            DestinasiDetailTiket.routeWithArgs,
+            arguments = listOf(
+                navArgument(DestinasiDetailTiket.id_tiket){
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            val id_tiket = it.arguments?.getString(DestinasiDetailTiket.id_tiket)
+            id_tiket?.let {
+                DetailTiketView(
+                    NavigateBack = {
+                        navController.navigate(DestinasiHomeTiket.route) {
+                            popUpTo(DestinasiHomeTiket.route) {
+                                inclusive = true
+                            }
+                        }
+                    },
+                    onEditClick =  {
+                        navController.navigate("${DestinasiUpdateTiket.route}/$it")
+                    },
+                    onDeleteClick = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+        }
+        composable("${DestinasiUpdateTiket.route}/{id_tiket}") { navBackStackEntry ->
+            val id_tiket = navBackStackEntry.arguments?.getString("id_tiket")
+            id_tiket?.let {
+                UpdateTiketView(
+                    id_tiket =it,
+                    onBack = { navController.popBackStack() },
+                    onNavigate = { navController.popBackStack() }
+                )
+            }
+        }
+
 
     }
 }
