@@ -24,7 +24,25 @@ interface AppContainer {
     val tiketRepository: TiketRepository
 }
 
+class BioskopContainer : AppContainer {
+    private val baseUrl = "http://10.0.2.2/bioskop/"
+    private val json = Json { ignoreUnknownKeys = true }
+    private val retrofit: Retrofit = Retrofit.Builder()
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+        .baseUrl(baseUrl).build()
 
+    private val filmService:FilmService by lazy { retrofit.create(FilmService::class.java) }
+    private val penayanganService: PenayanganService by lazy { retrofit.create(PenayanganService::class.java) }
+    private val studioService: StudioService by lazy { retrofit.create(StudioService::class.java) }
+    private val tiketService: TiketService by lazy { retrofit.create(TiketService::class.java) }
+
+    override val filmRepository: FilmRepository by lazy { NetworkFilmRepository(filmService) }
+    override val penayanganRepository: PenayanganRepository by lazy { NetworkPenayanganRepository(penayanganService) }
+
+    override val studioRepository: StudioRepository by lazy { NetworkStudioRepository(studioService) }
+
+    override val tiketRepository: TiketRepository by lazy { NetworkTiketRepository(tiketService) }
+}
 
 /*class BioskopContainer : AppContainer {
     private val json = Json { ignoreUnknownKeys = true }
