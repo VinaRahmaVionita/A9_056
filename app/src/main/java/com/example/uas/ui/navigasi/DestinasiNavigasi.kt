@@ -80,3 +80,25 @@ object DestinasiUpdatePenayangan : DestinasiNavigasi {
     override val titleRes = "Update Penayangan"
 }
 
+//TIKET
+object DestinasiDetailTiket : DestinasiNavigasi {
+    override val route = "detailtiket"
+    override val titleRes = "Detail Tiket"
+    const val id_tiket = "id_tiket"
+    val routeWithArgs = "$route/{$id_tiket}"
+}
+
+object DestinasiHomeTiket : DestinasiNavigasi {
+    override val route = "hometiket"
+    override val titleRes = "Home Tiket"
+}
+
+object DestinasiInsertTiket : DestinasiNavigasi {
+    override val route = "inserttiket/{id_penayangan}/{id_film}"
+    override val titleRes = "Insert Tiket"
+}
+
+object DestinasiUpdateTiket : DestinasiNavigasi {
+    override val route = "updatetiket"
+    override val titleRes = "Update Tiket"
+}
