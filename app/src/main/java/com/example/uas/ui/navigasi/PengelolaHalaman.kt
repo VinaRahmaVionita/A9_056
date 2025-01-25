@@ -104,6 +104,62 @@ fun PengelolaHalaman(
             }
         }
 
+        //STUDIO
+        composable(DestinasiHomeStudio.route) {
+            HomeStudioView(
+                navigateToItemEntry = { navController.navigate(DestinasiInsertStudio.route) },
+                onDetailClick = {id_studio ->
+                    navController.navigate("${DestinasiDetailStudio.route}/$id_studio")
+                }
+            )
+        }
+        composable(DestinasiInsertStudio.route) {
+            InsertStudioView(navigateBack = {
+                navController.navigate(DestinasiHomeStudio.route) {
+                    popUpTo(DestinasiHomeStudio.route) {
+                        inclusive = true
+                    }
+                }
+            })
+        }
+        composable(
+            DestinasiDetailStudio.routeWithArgs,
+            arguments = listOf(
+                navArgument(DestinasiDetailStudio.id_studio){
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            val id_studio = it.arguments?.getString(DestinasiDetailStudio.id_studio)
+            id_studio?.let {
+                DetailStudioView(
+                    NavigateBack = {
+                        navController.navigate(DestinasiHomeStudio.route) {
+                            popUpTo(DestinasiHomeStudio.route) {
+                                inclusive = true
+                            }
+                        }
+                    },
+                    onEditClick =  {
+                        navController.navigate("${DestinasiUpdateStudio.route}/$it")
+                    },
+                    onDeleteClick = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+        }
+        composable("${DestinasiUpdateStudio.route}/{id_studio}") { navBackStackEntry ->
+            val id_studio = navBackStackEntry.arguments?.getString("id_studio")
+            id_studio?.let {
+                UpdateStudioView(
+                    id_studio =it,
+                    onBack = { navController.popBackStack() },
+                    onNavigate = { navController.popBackStack() }
+                )
+            }
+        }
+
 
     }
 }
