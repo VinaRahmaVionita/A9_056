@@ -100,7 +100,29 @@ object PenyediaViewModel {
                    repository = bioskopApplication().container.penayanganRepository
                )
            }
-
+           //tiket
+           initializer {
+               HomeTiketViewModel(
+                   bioskopApplication().container.tiketRepository
+               )
+           }
+           initializer {
+               InsertTiketViewModel (
+                   bioskopApplication().container.tiketRepository
+               )
+           }
+           initializer {
+               DetailTiketViewModel (
+                   createSavedStateHandle(),
+                   bioskopApplication().container.tiketRepository
+               )
+           }
+           initializer {
+               UpdateTiketViewModel(
+                   savedStateHandle = createSavedStateHandle(),
+                   repository = bioskopApplication().container.tiketRepository
+               )
+           }
        }
 }
 
