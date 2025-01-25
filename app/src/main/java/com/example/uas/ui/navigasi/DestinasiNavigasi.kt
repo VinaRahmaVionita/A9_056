@@ -57,3 +57,26 @@ object DestinasiUpdateStudio : DestinasiNavigasi {
     override val titleRes = "Update Studio"
 }
 
+//PENAYANGAN
+object DestinasiDetailPenayangan : DestinasiNavigasi {
+    override val route = "detailpenayangan"
+    override val titleRes = "Detail Penayangan"
+    const val id_penayangan = "id_penayangan"
+    val routeWithArgs = "$route/{$id_penayangan}"
+}
+
+object DestinasiHomePenayangan : DestinasiNavigasi {
+    override val route = "homepenayangan"
+    override val titleRes = "Home Penayangan"
+}
+
+object DestinasiInsertPenayangan : DestinasiNavigasi {
+    override val route = "insertpenayangan"
+    override val titleRes = "Insert Penayangan"
+}
+
+object DestinasiUpdatePenayangan : DestinasiNavigasi {
+    override val route = "updatepenayangan"
+    override val titleRes = "Update Penayangan"
+}
+
