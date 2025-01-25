@@ -77,6 +77,29 @@ object PenyediaViewModel {
                    repository = bioskopApplication().container.studioRepository
                )
            }
+           //penayangan
+           initializer {
+               HomePenayanganViewModel(
+                   bioskopApplication().container.penayanganRepository
+               )
+           }
+           initializer {
+               InsertPenayanganViewModel (
+                   bioskopApplication().container.penayanganRepository
+               )
+           }
+           initializer {
+               DetailPenayanganViewModel (
+                   createSavedStateHandle(),
+                   bioskopApplication().container.penayanganRepository
+               )
+           }
+           initializer {
+               UpdatePenayanganViewModel(
+                   savedStateHandle = createSavedStateHandle(),
+                   repository = bioskopApplication().container.penayanganRepository
+               )
+           }
 
        }
 }
