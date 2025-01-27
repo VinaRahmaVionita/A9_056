@@ -10,7 +10,56 @@ import com.example.uas.model.Studio
 import com.example.uas.repository.StudioRepository
 import kotlinx.coroutines.launch
 
+//Mengelola state (data dan tampilan) untuk tampilan update studio
+class UpdateStudioViewModel(
+    private val repository: StudioRepository, //Objek untuk mengakses data studio dari database
+    savedStateHandle: SavedStateHandle //Menyimpan data yang dibutuhkan, seperti id_studio
+): ViewModel() {
+    var uiState by mutableStateOf(UpdateStudioUiState())
+        private set
 
+    private val _id_studio: String = checkNotNull(savedStateHandle["id_studio"])
+
+    init {
+        getStudioDetail()
+    }
+    //Mengambil data studio dari database berdasarkan ID
+    private fun getStudioDetail() {
+        viewModelScope.launch {
+            try {
+                val studio = repository.getStudioById(_id_studio)
+                uiState = UpdateStudioUiState(studioEvent = studio.toUpdateStudioUiEvent())
+            } catch (e: Exception){
+                e.printStackTrace()
+            }
+        }
+    }
+    //Memperbarui state aplikasi (UI) ketika ada perubahan data di form
+    fun updateStudioState(studioEvent: UpdateStudioUiEvent) {
+        uiState = uiState.copy(studioEvent = studioEvent)
+    }
+    //Menyimpan perubahan data studio ke dalam database
+    fun updateStudio() {
+        val currentEvent = uiState.studioEvent
+        viewModelScope.launch {
+            try {
+                repository.updateStudio(currentEvent.id_studio, currentEvent.toStudioEntity())
+                uiState = uiState.copy(
+                    snackBarMessage = "Data berhasil diupdate",
+                    studioEvent = UpdateStudioUiEvent()
+                )
+            } catch (e: Exception) {
+                uiState = uiState.copy(
+                    snackBarMessage = "Data gagal diupdate"
+                )
+            }
+        }
+    }
+
+    fun resetSnackBarMessage(){
+        uiState = uiState.copy(snackBarMessage = null)
+    }
+}
 //Mengubah objek Studio (data dari database) menjadi UpdateStudioUiEvent (data untuk UI)
 fun Studio.toUpdateStudioUiEvent(): UpdateStudioUiEvent = UpdateStudioUiEvent(
     id_studio = id_studio,
