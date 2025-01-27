@@ -10,6 +10,10 @@ import com.example.uas.repository.PenayanganRepository
 import kotlinx.coroutines.launch
 
 
+//Data penayangan yang akan ditambahkan atau diperbarui
+data class InsertTayangUiState(
+    val insertTayangUiEvent: InsertTayangUiEvent = InsertTayangUiEvent()
+)
 //Berisi data untuk operasi insert/update
 data class InsertTayangUiEvent(
     val id_penayangan: String = " ",
