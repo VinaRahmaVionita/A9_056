@@ -11,6 +11,11 @@ import com.example.uas.repository.PenayanganRepository
 import kotlinx.coroutines.launch
 
 
+//Menyimpan state untuk UI
+data class UpdateTayangUiState(
+    val penayanganEvent: UpdateTayangUiEvent = UpdateTayangUiEvent(),
+    val snackBarMessage: String? = null
+)
 //Berisi data input untuk fitur update penayangan
 data class UpdateTayangUiEvent(
     val id_penayangan: String = " ",
