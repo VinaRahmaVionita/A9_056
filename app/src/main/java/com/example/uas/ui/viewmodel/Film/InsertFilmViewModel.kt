@@ -10,6 +10,15 @@ import com.example.uas.repository.FilmRepository
 import kotlinx.coroutines.launch
 
 
+fun InsertFilmUiEvent.toFilm(): Film = Film(
+    id_film = id_film,
+    judul_film = judul_film,
+    durasi = durasi,
+    deskripsi = deskripsi,
+    genre = genre,
+    rating_usia = rating_usia
+)
+
 fun Film.toInsertFilmUiEvent(): InsertFilmUiEvent = InsertFilmUiEvent(
     id_film = id_film,
     judul_film = judul_film,
