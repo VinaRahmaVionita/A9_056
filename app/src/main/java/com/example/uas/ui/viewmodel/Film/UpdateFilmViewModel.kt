@@ -11,6 +11,11 @@ import com.example.uas.repository.FilmRepository
 import kotlinx.coroutines.launch
 
 
+//menyimpan status ui
+data class UpdateFilmUiState (
+    val filmEvent: UpdateFilmUiEvent = UpdateFilmUiEvent(),
+    val snackBarMessage: String? = null
+)
 //Data yang mewakili input pengguna
 data class UpdateFilmUiEvent (
     val id_film: String = "",
