@@ -8,7 +8,42 @@ import androidx.lifecycle.viewModelScope
 import com.example.uas.model.Film
 import com.example.uas.repository.FilmRepository
 import kotlinx.coroutines.launch
+//mengelola proses penyimpanan dan pembaruan data film
+class InsertFilmViewModel(private val film: FilmRepository): ViewModel() {
+    var uiState by mutableStateOf(InsertFilmUiState())
+        private set
 
+    fun updateInsertFilmState(insertFilmUiEvent: InsertFilmUiEvent) {
+        uiState = InsertFilmUiState(insertFilmUiEvent = insertFilmUiEvent)
+    }
+
+    // Fungsi untuk menambahkan Film
+    suspend fun insertFilm() {
+        viewModelScope.launch {
+            try {
+                film.insertFilm(uiState.insertFilmUiEvent.toFilm())
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    // Fungsi untuk mengupdate Film
+    suspend fun updateFilm(id_film: String) {
+        viewModelScope.launch {
+            try {
+                film.updateFilm(id_film, uiState.insertFilmUiEvent.toFilm())
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+}
+
+// Fungsi konversi antara objek Film dan InsertFilmEvent
+fun Film.toUiStateFilm(): InsertFilmUiState = InsertFilmUiState(
+    insertFilmUiEvent = toInsertFilmUiEvent()
+)
 
 fun InsertFilmUiEvent.toFilm(): Film = Film(
     id_film = id_film,
