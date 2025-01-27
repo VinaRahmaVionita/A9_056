@@ -13,7 +13,12 @@ import com.example.uas.repository.FilmRepository
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-
+//untuk menggambarkan status UI saat data film sedang diproses
+sealed class HomeFilmUiState {
+    data class Success(val film: List<Film>) : HomeFilmUiState()
+    object Error : HomeFilmUiState()
+    object Loading : HomeFilmUiState()
+}
 
 //kelas ViewModel yang digunakan untuk mengelola data dan logika terkait film.
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
