@@ -11,6 +11,11 @@ import kotlinx.coroutines.launch
 
 
 
+//Menyimpan status UI terkait operasi penyisipan tiket
+data class InsertTiketUiState(
+    val insertTiketUiEvent: InsertTiketUiEvent = InsertTiketUiEvent()
+)
+
 //Menyimpan data tiket yang akan disisipkan atau diperbarui
 data class InsertTiketUiEvent(
     val id_tiket: String = " ",
