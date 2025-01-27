@@ -11,6 +11,13 @@ import com.example.uas.repository.TiketRepository
 import kotlinx.coroutines.launch
 
 
+
+//data class yang merepresentasikan status UI
+data class UpdateTiketUiState(
+    val tiketEvent: UpdateTiketUiEvent = UpdateTiketUiEvent(),
+    val snackBarMessage: String? = null
+)
+
 //state untuk memperbarui data tiket.
 data class UpdateTiketUiEvent(
     val id_tiket: String = " ",
