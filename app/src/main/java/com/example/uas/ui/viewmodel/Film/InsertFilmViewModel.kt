@@ -9,6 +9,17 @@ import com.example.uas.model.Film
 import com.example.uas.repository.FilmRepository
 import kotlinx.coroutines.launch
 
+
+fun Film.toInsertFilmUiEvent(): InsertFilmUiEvent = InsertFilmUiEvent(
+    id_film = id_film,
+    judul_film = judul_film,
+    durasi = durasi,
+    deskripsi = deskripsi,
+    genre = genre,
+    rating_usia = rating_usia
+)
+
+// Data class untuk UI State dan Event
 data class InsertFilmUiState(
     val insertFilmUiEvent: InsertFilmUiEvent = InsertFilmUiEvent()
 )
