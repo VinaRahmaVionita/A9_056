@@ -12,7 +12,54 @@ import com.example.uas.repository.PenayanganRepository
 import com.example.uas.ui.navigasi.DestinasiDetailPenayangan
 import kotlinx.coroutines.launch
 
+//Mendapatkan detail data penayangan
+class DetailPenayanganViewModel (
+    savedStateHandle: SavedStateHandle,
+    private val penayanganRepository: PenayanganRepository
+) : ViewModel() {
+    private val id_penayangan: String = checkNotNull(savedStateHandle[DestinasiDetailPenayangan.id_penayangan])
 
+    var detailTayangUiState: DetailTayangUiState by mutableStateOf(DetailTayangUiState())
+        private set
+    init {
+        getPenayanganById()
+    }
+    //Mendapatkan detail data penayangan berdasarkan id_penayangan
+    private fun getPenayanganById(){
+        viewModelScope.launch {
+            detailTayangUiState = DetailTayangUiState(isLoading = true)
+            try {
+                val result = penayanganRepository.getPenayanganById(id_penayangan)
+                detailTayangUiState = DetailTayangUiState(
+                    detailTayangUiEvent = result.toDetailPenayanganUiEvent(),
+                    isLoading = false
+                )
+            }catch (e: Exception){
+                detailTayangUiState = DetailTayangUiState(
+                    isLoading = false,
+                    isError = true,
+                    errorMessage = e.message ?: "Unknown"
+                )
+            }
+        }
+    }
+    //menghapus penayangan berdasarkan id
+    fun deleteTayang() {
+        viewModelScope.launch {
+            detailTayangUiState = DetailTayangUiState(isLoading = true)
+            try {
+                penayanganRepository.deletePenayangan(id_penayangan)
+                detailTayangUiState = DetailTayangUiState(isLoading = false)
+            } catch (e: Exception){
+                detailTayangUiState = DetailTayangUiState(
+                    isLoading = false,
+                    isError = true,
+                    errorMessage = e.message ?: "Unknown Error"
+                )
+            }
+        }
+    }
+}
 
 //memuat informasi tentang kondisi data penayangan
 data class DetailTayangUiState(
