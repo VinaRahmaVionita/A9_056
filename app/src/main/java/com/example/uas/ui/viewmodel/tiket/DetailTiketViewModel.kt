@@ -11,7 +11,54 @@ import com.example.uas.repository.TiketRepository
 import com.example.uas.ui.navigasi.DestinasiDetailTiket
 import kotlinx.coroutines.launch
 
+//mengelola status dan logika terkait dengan detail tiket
+class DetailTiketViewModel (
+    savedStateHandle: SavedStateHandle,
+    private val tiketRepository: TiketRepository
+): ViewModel(){
+    private val id_tiket: String = checkNotNull(savedStateHandle[DestinasiDetailTiket.id_tiket])
 
+    var detailTiketUiState: DetailTiketUiState by mutableStateOf(DetailTiketUiState())
+        private set
+    init {
+        getTiketById()
+    }
+    //mengambil detail tiket berdasarkan id_tiket menggunakan repository
+    private fun getTiketById(){
+        viewModelScope.launch {
+            detailTiketUiState = DetailTiketUiState(isLoading = true)
+            try {
+                val result = tiketRepository.getTiketById(id_tiket)
+                detailTiketUiState = DetailTiketUiState(
+                    detailTiketUiEvent = result.toDetailTiketUiEvent(),
+                    isLoading = false
+                )
+            } catch (e: Exception){
+                detailTiketUiState = DetailTiketUiState(
+                    isLoading = false,
+                    isError = true,
+                    errorMessage = e.message ?: "Unknown"
+                )
+            }
+        }
+    }
+    //untuk menghapus tiket berdasarkan id_tiket
+    fun deleteTiket() {
+        viewModelScope.launch {
+            detailTiketUiState = DetailTiketUiState(isLoading = true)
+            try {
+                tiketRepository.deleteTiket(id_tiket)
+                detailTiketUiState = DetailTiketUiState(isLoading = false)
+            } catch (e: Exception){
+                detailTiketUiState = DetailTiketUiState(
+                    isLoading = false,
+                    isError = true,
+                    errorMessage = e.message ?: "Unknown Error"
+                )
+            }
+        }
+    }
+}
 //Data class yang menyimpan status UI terkait detail tiket.
 data class DetailTiketUiState(
     val detailTiketUiEvent: InsertTiketUiEvent = InsertTiketUiEvent(), //Data class yang menyimpan status UI terkait detail tiket
