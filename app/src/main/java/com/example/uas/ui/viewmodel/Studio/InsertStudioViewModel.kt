@@ -10,6 +10,10 @@ import com.example.uas.repository.StudioRepository
 import kotlinx.coroutines.launch
 
 
+//Menyimpan state layar (UI), khususnya data input yang sedang diisi pengguna
+data class InsertStudioUiState(
+    val insertStudioUiEvent: InsertStudioUiEvent = InsertStudioUiEvent()
+)
 //Mewakili data input pengguna
 data class InsertStudioUiEvent(
     val id_studio: String = "",
