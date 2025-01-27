@@ -11,6 +11,15 @@ import com.example.uas.repository.PenayanganRepository
 import kotlinx.coroutines.launch
 
 
+//Mengubah objek Penayangan menjadi model untuk UI
+//mempermudah pengisian data dari database ke UI
+fun Penayangan.toUpdateTayangUiEvent(): UpdateTayangUiEvent = UpdateTayangUiEvent(
+    id_penayangan = id_penayangan,
+    id_film = id_film,
+    id_studio = id_studio,
+    tanggal_penayangan = tanggal_penayangan,
+    harga_tiket = harga_tiket
+)
 //Mengubah objek UpdateTayangUiEvent menjadi Penayangan (database)
 fun UpdateTayangUiEvent.toTayangEntity(): Penayangan = Penayangan(
     id_penayangan = id_penayangan,
