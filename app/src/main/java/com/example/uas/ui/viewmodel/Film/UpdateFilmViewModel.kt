@@ -10,6 +10,15 @@ import com.example.uas.model.Film
 import com.example.uas.repository.FilmRepository
 import kotlinx.coroutines.launch
 
+
+fun Film.toUpdateFilmUiEvent(): UpdateFilmUiEvent = UpdateFilmUiEvent(
+    id_film = id_film,
+    judul_film = judul_film,
+    durasi = durasi,
+    deskripsi = deskripsi,
+    genre = genre,
+    rating_usia = rating_usia
+)
 //Mengubah objek UpdateTayangUiEvent menjadi Penayangan (database)
 fun UpdateFilmUiEvent.toFilmEntity(): Film = Film(
     id_film = id_film,
