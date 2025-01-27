@@ -10,6 +10,14 @@ import com.example.uas.repository.TiketRepository
 import kotlinx.coroutines.launch
 
 
+//ntuk proses insert atau pembaruan data tiket di database
+fun InsertTiketUiEvent.toTiket(): Tiket = Tiket (
+    id_tiket = id_tiket,
+    id_penayangan = id_penayangan,
+    jumlah_tiket = jumlah_tiket,
+    total_harga = total_harga,
+    status_pembayaran = status_pembayaran
+)
 
 //untuk memperbarui data UI dengan informasi tiket
 fun Tiket.toInsertTiketUiEvent(): InsertTiketUiEvent = InsertTiketUiEvent (
