@@ -10,7 +10,55 @@ import com.example.uas.model.Penayangan
 import com.example.uas.repository.PenayanganRepository
 import kotlinx.coroutines.launch
 
+//Mengelola state dan logika untuk fitur update penayangan
+class UpdatePenayanganViewModel(
+    private val repository: PenayanganRepository,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
+    var uiState by mutableStateOf(UpdateTayangUiState())
+        private set
+    private val _id_penayangan: String = checkNotNull(savedStateHandle["id_penayangan"])
 
+    init {
+        getTayangDetail()
+    }
+    //Mengambil data penayangan dari repository
+    private fun getTayangDetail() {
+        viewModelScope.launch {
+            try {
+                val penayangan = repository.getPenayanganById(_id_penayangan)
+                uiState = UpdateTayangUiState(penayanganEvent = penayangan.toUpdateTayangUiEvent())
+            } catch (e: Exception){
+                e.printStackTrace()
+            }
+        }
+    }
+    //Memperbarui state UI dengan data baru dari pengguna
+    fun updateTayangState(penayanganEvent: UpdateTayangUiEvent) {
+        uiState = uiState.copy(penayanganEvent = penayanganEvent)
+    }
+    //Memperbarui data penayangan di repository menggunakan data dari uiState
+    fun updateTayang() {
+        val currentEvent = uiState.penayanganEvent
+        viewModelScope.launch {
+            try {
+                repository.updatePenayangan(currentEvent.id_penayangan, currentEvent.toTayangEntity())
+                uiState = uiState.copy(
+                    snackBarMessage = "Data berhasil diupdate",
+                    penayanganEvent = UpdateTayangUiEvent()
+                )
+            } catch (e: Exception) {
+                uiState = uiState.copy(
+                    snackBarMessage = "Data gagal diupdate"
+                )
+            }
+        }
+    }
+    //Menghapus pesan snackbar setelah selesai ditampilkan
+    fun resetSnackBarMessage(){
+        uiState = uiState.copy(snackBarMessage = null)
+    }
+}
 //Mengubah objek Penayangan menjadi model untuk UI
 //mempermudah pengisian data dari database ke UI
 fun Penayangan.toUpdateTayangUiEvent(): UpdateTayangUiEvent = UpdateTayangUiEvent(
