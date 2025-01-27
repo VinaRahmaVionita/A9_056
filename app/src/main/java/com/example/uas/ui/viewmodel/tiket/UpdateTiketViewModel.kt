@@ -12,6 +12,15 @@ import kotlinx.coroutines.launch
 
 
 
+//mengubah objek Tiket menjadi objek UpdateTiketUiEvent.
+fun Tiket.toUpdateTiketUiEvent(): UpdateTiketUiEvent = UpdateTiketUiEvent(
+    id_tiket = id_tiket,
+    id_penayangan = id_penayangan,
+    jumlah_tiket = jumlah_tiket,
+    total_harga = total_harga,
+    status_pembayaran = status_pembayaran
+)
+
 //mengubah objek UpdateTiketUiEvent kembali menjadi objek Tiket
 fun UpdateTiketUiEvent.toTiketEntity(): Tiket = Tiket(
     id_tiket = id_tiket,
