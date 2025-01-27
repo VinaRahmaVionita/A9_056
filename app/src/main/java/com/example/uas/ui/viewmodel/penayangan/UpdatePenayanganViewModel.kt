@@ -11,6 +11,14 @@ import com.example.uas.repository.PenayanganRepository
 import kotlinx.coroutines.launch
 
 
+//Mengubah objek UpdateTayangUiEvent menjadi Penayangan (database)
+fun UpdateTayangUiEvent.toTayangEntity(): Penayangan = Penayangan(
+    id_penayangan = id_penayangan,
+    id_film = id_film,
+    id_studio = id_studio,
+    tanggal_penayangan = tanggal_penayangan,
+    harga_tiket = harga_tiket
+)
 //Menyimpan state untuk UI
 data class UpdateTayangUiState(
     val penayanganEvent: UpdateTayangUiEvent = UpdateTayangUiEvent(),
