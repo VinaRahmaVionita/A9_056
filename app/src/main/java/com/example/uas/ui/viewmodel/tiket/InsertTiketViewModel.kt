@@ -9,7 +9,46 @@ import com.example.uas.model.Tiket
 import com.example.uas.repository.TiketRepository
 import kotlinx.coroutines.launch
 
+//mengelola status UI terkait insert tiket
+class InsertTiketViewModel (private val tiket: TiketRepository): ViewModel(){
+    //Menyimpan status UI yang berisi data tiket yang akan diinsert
+    var uiState by mutableStateOf(InsertTiketUiState())
+        private set
+    //memperbarui state UI ketika ada perubahan data tiket
+    fun updateInsertTiketState(insertTiketUiEvent: InsertTiketUiEvent){
+        uiState = InsertTiketUiState(insertTiketUiEvent = insertTiketUiEvent)
+    }
 
+    //untuk menyisipkan tiket baru ke dalam database
+    //menggunakan repository tiket untuk memanggil metode insertTiket
+    suspend fun insertTiket() {
+        viewModelScope.launch {
+            try {
+                println("Inserting Tiket: ${uiState.insertTiketUiEvent}")
+                tiket.insertTiket(uiState.insertTiketUiEvent.toTiket())
+                println("Insert berhasil")
+            } catch (e: Exception) {
+                println("Insert gagal: ${e.message}")
+                e.printStackTrace()
+            }
+        }
+    }
+
+    //untuk memperbarui tiket yang sudah ada menggunakan ID tiket
+    suspend fun updateTiket(id_tiket: String){
+        viewModelScope.launch {
+            try {
+                tiket.updateTiket(id_tiket, uiState.insertTiketUiEvent.toTiket())
+            } catch (e: Exception){
+                e.printStackTrace()
+            }
+        }
+    }
+}
+//mengonversi objek Tiket menjadi InsertTiketUiState untuk memperbarui UI
+fun Tiket.toUiStateTiket(): InsertTiketUiState = InsertTiketUiState(
+    insertTiketUiEvent = toInsertTiketUiEvent()
+)
 //ntuk proses insert atau pembaruan data tiket di database
 fun InsertTiketUiEvent.toTiket(): Tiket = Tiket (
     id_tiket = id_tiket,
