@@ -11,6 +11,12 @@ import com.example.uas.repository.StudioRepository
 import kotlinx.coroutines.launch
 
 
+//Mengubah objek Studio (data dari database) menjadi UpdateStudioUiEvent (data untuk UI)
+fun Studio.toUpdateStudioUiEvent(): UpdateStudioUiEvent = UpdateStudioUiEvent(
+    id_studio = id_studio,
+    nama_studio = nama_studio,
+    kapasitas = kapasitas
+)
 //Mengubah UpdateStudioUiEvent (data UI) menjadi objek Studio (data untuk database)
 fun UpdateStudioUiEvent.toStudioEntity(): Studio = Studio(
     id_studio = id_studio,
