@@ -10,6 +10,14 @@ import com.example.uas.repository.PenayanganRepository
 import kotlinx.coroutines.launch
 
 
+//Mengonversi objek InsertTayangUiEvent menjadi Penayangan
+fun InsertTayangUiEvent.toTayang(): Penayangan = Penayangan(
+    id_penayangan = id_penayangan,
+    id_film = id_film,
+    id_studio = id_studio,
+    tanggal_penayangan = tanggal_penayangan,
+    harga_tiket = harga_tiket
+)
 //Mengonversi objek Penayangan menjadi InsertTayangUiEvent
 fun Penayangan.toInsertTayangUiEvent(): InsertTayangUiEvent = InsertTayangUiEvent(
     id_penayangan = id_penayangan,
