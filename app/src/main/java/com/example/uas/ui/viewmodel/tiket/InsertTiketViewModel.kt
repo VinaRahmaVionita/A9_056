@@ -11,6 +11,15 @@ import kotlinx.coroutines.launch
 
 
 
+//untuk memperbarui data UI dengan informasi tiket
+fun Tiket.toInsertTiketUiEvent(): InsertTiketUiEvent = InsertTiketUiEvent (
+    id_tiket = id_tiket,
+    id_penayangan = id_penayangan,
+    jumlah_tiket = jumlah_tiket,
+    total_harga = total_harga,
+    status_pembayaran = status_pembayaran
+)
+
 //Menyimpan status UI terkait operasi penyisipan tiket
 data class InsertTiketUiState(
     val insertTiketUiEvent: InsertTiketUiEvent = InsertTiketUiEvent()
