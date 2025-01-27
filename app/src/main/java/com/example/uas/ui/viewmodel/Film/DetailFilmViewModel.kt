@@ -13,6 +13,19 @@ import kotlinx.coroutines.launch
 
 
 
+
+data class DetailFilmUiState(
+    val detailFilmUiEvent: InsertFilmUiEvent = InsertFilmUiEvent(),
+    val isLoading: Boolean = false,
+    val isError: Boolean = false,
+    val errorMessage: String = " "
+){
+    val isFilmUiEventEmpty: Boolean
+        get() = detailFilmUiEvent == InsertFilmUiEvent()
+
+    val isFilmUiEventNotEmpty: Boolean
+        get() = detailFilmUiEvent != InsertFilmUiEvent()
+}
 //Mengkonversi objek Film menjadi InsertFilmUiEvent(UI)
 fun Film.toDetailFilmUiEvent(): InsertFilmUiEvent {
     return InsertFilmUiEvent(
