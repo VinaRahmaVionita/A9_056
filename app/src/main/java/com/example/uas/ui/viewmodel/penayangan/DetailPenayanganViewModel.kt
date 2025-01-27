@@ -14,6 +14,19 @@ import kotlinx.coroutines.launch
 
 
 
+//memuat informasi tentang kondisi data penayangan
+data class DetailTayangUiState(
+    val detailTayangUiEvent: InsertTayangUiEvent = InsertTayangUiEvent(),
+    val isLoading: Boolean = false,
+    val isError: Boolean = false,
+    val errorMessage: String = ""
+){
+    val isUiEventEmpty: Boolean
+        get() = detailTayangUiEvent == InsertTayangUiEvent()
+    val isUiEventNotEmpty: Boolean
+        get() = detailTayangUiEvent != InsertTayangUiEvent()
+}
+
 //Mengubah objek penayangan menjadi InsertStudioUiEvent untuk ditampilkan pada UI
 fun Penayangan.toDetailPenayanganUiEvent(): InsertTayangUiEvent{
     return InsertTayangUiEvent(
