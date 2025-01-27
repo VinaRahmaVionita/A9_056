@@ -12,6 +12,18 @@ import com.example.uas.ui.navigasi.DestinasiDetailTiket
 import kotlinx.coroutines.launch
 
 
+//Data class yang menyimpan status UI terkait detail tiket.
+data class DetailTiketUiState(
+    val detailTiketUiEvent: InsertTiketUiEvent = InsertTiketUiEvent(), //Data class yang menyimpan status UI terkait detail tiket
+    val isLoading: Boolean = false,
+    val isError: Boolean = false,
+    val errorMessage: String = ""
+){
+    val isUiEventEmpty: Boolean
+        get() = detailTiketUiEvent == InsertTiketUiEvent()
+    val isUiEventNotEmpty: Boolean
+        get() = detailTiketUiEvent != InsertTiketUiEvent()
+}
 //untuk mengonversi data tiket yang diambil dari repository
 fun Tiket.toDetailTiketUiEvent(): InsertTiketUiEvent{
     return InsertTiketUiEvent(
