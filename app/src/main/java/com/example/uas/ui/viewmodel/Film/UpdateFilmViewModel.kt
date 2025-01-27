@@ -10,6 +10,56 @@ import com.example.uas.model.Film
 import com.example.uas.repository.FilmRepository
 import kotlinx.coroutines.launch
 
+class UpdateFilmViewModel (
+    private val repository: FilmRepository,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
+    var uiState by mutableStateOf(UpdateFilmUiState())
+        private set
+
+    private val _id_film: String = checkNotNull(savedStateHandle["id_film"])
+
+    init {
+        getFilmDetail()
+    }
+
+    private fun getFilmDetail() {
+        viewModelScope.launch {
+            try {
+                val film = repository.getFilmById(_id_film)
+                uiState = UpdateFilmUiState(filmEvent = film.toUpdateFilmUiEvent())
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun updateFilmState(filmEvent: UpdateFilmUiEvent) {
+        uiState = uiState.copy(filmEvent = filmEvent)
+    }
+
+    fun updateFilm() {
+        val currentEvent = uiState.filmEvent
+
+        viewModelScope.launch {
+            try {
+                repository.updateFilm(currentEvent.id_film, currentEvent.toFilmEntity())
+                uiState = uiState.copy(
+                    snackBarMessage = "Data berhasil diperbarui",
+                    filmEvent = UpdateFilmUiEvent()
+                )
+            } catch (e: Exception){
+                uiState = uiState.copy(
+                    snackBarMessage = "Data gagal diperbarui"
+                )
+            }
+        }
+    }
+
+    fun resetSnackBarMessage() {
+        uiState = uiState.copy(snackBarMessage = null)
+    }
+}
 
 fun Film.toUpdateFilmUiEvent(): UpdateFilmUiEvent = UpdateFilmUiEvent(
     id_film = id_film,
