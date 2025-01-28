@@ -156,7 +156,34 @@ fun HomeMenuView(
                 }
                 Spacer(modifier = Modifier.height(16.dp))
 
-
+                //button tiket
+                Button(
+                    onClick = onTiketClick,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.LightGray,
+                        contentColor = Color.Black
+                    ),
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(0.8f)
+                        .clip(RoundedCornerShape(12.dp)) // Rounded corners
+                        .shadow(8.dp, RoundedCornerShape(12.dp))
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.AccountBox,
+                            contentDescription = "Manage Tiket",
+                            modifier = Modifier.padding(end = 8.dp),
+                            tint = Color.Black
+                        )
+                        Text(
+                            text = "Manage Tiket",
+                            fontSize = 25.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
         }
