@@ -125,6 +125,37 @@ fun HomeMenuView(
                 }
                 Spacer(modifier = Modifier.height(16.dp))
 
+                //button penayangan
+                Button(
+                    onClick = onPenayanganClick,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Gray,
+                        contentColor = Color.Black
+                    ),
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(0.8f)
+                        .clip(RoundedCornerShape(12.dp)) // sisi bawah yg melingkar
+                        .shadow(20.dp, RoundedCornerShape(15.dp))
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.DateRange,
+                            contentDescription = "Manage Penayangan",
+                            modifier = Modifier.padding(end = 8.dp),
+                            tint = Color.Black
+                        )
+                        Text(
+                            text = "Penayangan",
+                            fontSize = 25.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+
 
                 }
             }
