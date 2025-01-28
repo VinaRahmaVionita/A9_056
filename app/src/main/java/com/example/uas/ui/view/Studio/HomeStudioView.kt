@@ -53,6 +53,30 @@ import com.example.uas.ui.viewmodel.Studio.HomeStudioViewModel
 
 
 @Composable
+fun StudioLayout(
+    studio: List<Studio>,
+    modifier: Modifier = Modifier,
+    onDeleteClick: (Studio) -> Unit = {},
+    onDetailClick: (Studio) -> Unit
+){
+    LazyColumn (
+        modifier = modifier,
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ){
+        items(studio) { studio ->
+            StudioCard(
+                studio = studio,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onDetailClick(studio) },
+                onDeleteClick = { onDeleteClick(studio) }
+            )
+        }
+    }
+}
+
+@Composable
 fun StudioCard(
     studio: Studio,
     modifier: Modifier = Modifier,
