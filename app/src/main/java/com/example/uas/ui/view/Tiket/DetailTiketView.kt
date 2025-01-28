@@ -45,6 +45,36 @@ import com.example.uas.ui.viewmodel.tiket.DetailTiketViewModel
 import com.example.uas.ui.viewmodel.tiket.toTiket
 
 
+//Menampilkan informasi detail tentang tiket yang dipilih
+@Composable
+fun ItemDetailTiket(
+    modifier: Modifier = Modifier,
+    tiket: Tiket,
+){
+    Card(
+        modifier = modifier.fillMaxWidth().padding(top = 20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        )
+    ){
+        Column(
+            modifier = Modifier
+                .background(Color(0xFFB3D8F5))
+                .padding(16.dp)
+        ) {
+            ComponentDetailTiket(judul = "ID Tiket", isinya = tiket.id_tiket)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailTiket(judul = "ID Penayangan", isinya = tiket.id_penayangan)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailTiket(judul = "Jumlah Tiket", isinya = tiket.jumlah_tiket)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailTiket(judul = "Total Harga", isinya = tiket.total_harga)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailTiket(judul = "Kelas", isinya = tiket.status_pembayaran)
+        }
+    }
+}
 //Menampilkan label dan nilai untuk setiap informasi detail tiket
 @Composable
 fun ComponentDetailTiket(
