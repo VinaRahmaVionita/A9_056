@@ -48,7 +48,52 @@ import com.example.uas.ui.viewmodel.PenyediaViewModel
 import com.example.uas.ui.viewmodel.penayangan.HomePenayanganUiState
 import com.example.uas.ui.viewmodel.penayangan.HomePenayanganViewModel
 
-
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeTayangView(
+    navigateToItemEntry: () -> Unit,
+    modifier: Modifier = Modifier,
+    onDetailClick: (String) -> Unit = {},
+    viewModel: HomePenayanganViewModel = viewModel(factory = PenyediaViewModel.Factory),
+){
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = modifier
+            .fillMaxSize() // Isi layar penuh
+            .background(Color(0xFF0AC4B2))
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            CostumeTopAppBar(
+                title = DestinasiHomePenayangan.titleRes,
+                canNavigateBack = false,
+                scrollBehavior = scrollBehavior,
+                onRefresh = {
+                    viewModel.getTayang()
+                }
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = navigateToItemEntry,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(18.dp)
+            ) {
+                Icon(imageVector = Icons.Default.AddCircle, contentDescription = "Add Penayangan")
+            }
+        },
+    ) { innerPadding ->
+        HomeTayangStatus (
+            homePenayanganUiState = viewModel.tayangUiState,
+            retryAction = { viewModel.getTayang() }, modifier = Modifier.padding(innerPadding),
+            onDetailClick = onDetailClick,
+            onDeleteClick = {
+                viewModel.deleteTayang(it.id_penayangan )
+                viewModel.getTayang()
+            }
+        )
+    }
+}
 
 @Composable
 fun HomeTayangStatus(
