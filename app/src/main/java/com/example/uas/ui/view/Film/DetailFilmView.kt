@@ -50,6 +50,64 @@ import com.example.uas.ui.viewmodel.PenyediaViewModel
 
 
 @Composable
+fun BodyDetailFilm(
+    modifier: Modifier = Modifier,
+    onDeleteClick: () -> Unit,
+    detailFilmUiState: DetailFilmUiState
+){
+    when{
+        detailFilmUiState.isLoading -> {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ){
+                CircularProgressIndicator()
+            }
+        }
+        detailFilmUiState.isError -> {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = detailFilmUiState.errorMessage,
+                    color = Color.Red
+                )
+            }
+        }
+        detailFilmUiState.isFilmUiEventNotEmpty -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                ItemDetailFilm(
+                    film = detailFilmUiState.detailFilmUiEvent.toFilm(),
+                    modifier = modifier
+                )
+                Spacer(modifier = Modifier.padding(8.dp))
+                Button(
+                    onClick = onDeleteClick,
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF7399FF), // Warna biru muda
+                        contentColor = Color.Black
+                    )
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete Icon",
+                            modifier = Modifier.padding(end = 8.dp) // Jarak antara ikon dan teks
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun ItemDetailFilm(
     modifier: Modifier = Modifier,
     film: Film
