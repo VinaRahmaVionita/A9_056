@@ -63,7 +63,39 @@ fun HomeMenuView(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                //button film
+                Button(
+                    onClick = onFilmClick,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Gray,
+                        contentColor = Color.Black
+                    ),
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(0.8f)
+                        .clip(RoundedCornerShape(12.dp)) // Rounded corners
+                        .shadow(8.dp, RoundedCornerShape(12.dp)) // Add shadow for elevation
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = "Manage Film",
+                            modifier = Modifier.padding(end = 8.dp),
+                            tint = Color.Black
+                        )
+                        Text(
+                            text = "Manage Film",
+                            fontSize = 25.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
 
+
+                }
             }
         }
     )
