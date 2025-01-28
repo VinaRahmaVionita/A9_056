@@ -39,7 +39,59 @@ import com.example.uas.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@Composable
+fun UpdateFilmView(
+    id_film: String,
+    onBack: () -> Unit,
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: UpdateFilmViewModel = viewModel(factory = PenyediaViewModel.Factory)
+){
+    val uiState = viewModel.uiState
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
 
+    LaunchedEffect(uiState.snackBarMessage) {
+        uiState.snackBarMessage?.let { message ->
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(message)
+                viewModel.resetSnackBarMessage()
+            }
+        }
+    }
+
+    Scaffold(
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        topBar = {
+            CostumeTopAppBar(
+                title = "Update Film",
+                canNavigateBack = true,
+                navigateUp = onBack
+            )
+        }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp)
+        ) {
+            FormFilm(
+                insertFilmUiEvent = uiState.filmEvent,
+                onValueChange = viewModel::updateFilmState,
+                onSaveClick = {
+                    coroutineScope.launch {
+                        viewModel.updateFilm()
+                        onNavigate()
+                    }
+                }
+            )
+        }
+    }
+}
 
 @Composable
 fun FormFilm(
