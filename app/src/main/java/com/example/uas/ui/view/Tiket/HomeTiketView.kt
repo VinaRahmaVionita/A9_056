@@ -48,7 +48,56 @@ import com.example.uas.ui.viewmodel.PenyediaViewModel
 import com.example.uas.ui.viewmodel.tiket.HomeTiketUiState
 import com.example.uas.ui.viewmodel.tiket.HomeTiketViewModel
 
-
+//titik masuk utama untuk tampilan layar manajemen tiket
+@OptIn(ExperimentalMaterial3Api::class)
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@Composable
+fun HomeTiketView(
+    navigateToItemEntry: () -> Unit,
+    modifier: Modifier = Modifier,
+    onDetailClick: (String) -> Unit = {},
+    viewModel: HomeTiketViewModel = viewModel(factory = PenyediaViewModel.Factory)
+) {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = modifier
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
+            .fillMaxSize(),
+        topBar = {
+            CostumeTopAppBar(
+                title = DestinasiHomeTiket.titleRes,
+                canNavigateBack = false,
+                scrollBehavior = scrollBehavior,
+                onRefresh = {
+                    viewModel.getTiket()
+                }
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = navigateToItemEntry,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(18.dp)
+            ) {
+                Icon(imageVector = Icons.Default.AddCircle, contentDescription = "Add Tiket")
+            }
+        },
+    ) { innerPadding ->
+        // Pastikan konten di dalamnya dapat di-scroll dengan `LazyColumn`
+        HomeTiketStatus(
+            homeTiketUiState = viewModel.tiketUiState,
+            retryAction = { viewModel.getTiket() },
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize(), // Memastikan ukuran diatur sesuai
+            onDetailClick = onDetailClick,
+            onDeleteClick = {
+                viewModel.deleteTiket(it.id_tiket)
+                viewModel.getTiket()
+            }
+        )
+    }
+}
 
 //Menampilkan berbagai status dari daftar tiket
 @Composable
