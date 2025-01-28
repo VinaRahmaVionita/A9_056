@@ -51,6 +51,43 @@ import com.example.uas.ui.viewmodel.penayangan.HomePenayanganViewModel
 
 
 @Composable
+fun HomeTayangStatus(
+    homePenayanganUiState: HomePenayanganUiState,
+    retryAction: () -> Unit,
+    modifier: Modifier = Modifier,
+    onDeleteClick: (Penayangan) -> Unit = {},
+    onDetailClick: (String) -> Unit
+) {
+    when (homePenayanganUiState) {
+        is HomePenayanganUiState.Loading -> OnLoading(modifier = modifier.fillMaxSize())
+        is HomePenayanganUiState.Success ->
+            if (
+                homePenayanganUiState.penayangan.isEmpty()){
+                return
+                Box(modifier = modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center) {
+                    Text(text = "Tidak ada penayangan" )
+                }
+            }else {
+                TayangLayout(
+                    penayangan = homePenayanganUiState.penayangan,
+                    modifier = modifier.fillMaxWidth(),
+                    onDetailClick = {
+                        onDetailClick(it.id_penayangan)
+                    },
+                    onDeleteClick = {
+                        onDeleteClick(it)
+                    }
+                )
+            }
+        is HomePenayanganUiState.Error -> OnError(
+            retryAction,
+            modifier = modifier.fillMaxSize()
+        )
+    }
+}
+
+@Composable
 fun OnLoading(
     modifier: Modifier = Modifier) {
     Image(
