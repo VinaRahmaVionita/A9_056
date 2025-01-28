@@ -47,6 +47,55 @@ import com.example.uas.ui.viewmodel.Studio.toStd
 
 
 @Composable
+fun BodyDetailStd(
+    modifier: Modifier = Modifier,
+    detailStudioUiState: DetailStudioUiState,
+    onDeleteClick: () -> Unit
+) {
+    when {
+        detailStudioUiState.isLoading -> {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        detailStudioUiState.isError -> {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = detailStudioUiState.errorMessage,
+                    color = Color.Red
+                )
+            }
+        }
+        detailStudioUiState.isUiEventNotEmpty -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                ItemDetailStd(
+                    studio = detailStudioUiState.detailStudioUiEvent.toStd(),
+                    modifier = modifier
+                )
+
+                Spacer(modifier = Modifier.padding(8.dp))
+                Button(
+                    onClick = onDeleteClick,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = "Delete")
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun ItemDetailStd(
     modifier: Modifier = Modifier,
     studio: Studio,
