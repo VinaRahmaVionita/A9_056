@@ -50,6 +50,38 @@ import com.example.uas.ui.viewmodel.PenyediaViewModel
 
 
 @Composable
+fun ItemDetailFilm(
+    modifier: Modifier = Modifier,
+    film: Film
+){
+    Card(
+        modifier = modifier.fillMaxWidth().padding(top = 20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        )
+    ){
+        Column(
+            modifier = Modifier
+                .background(Color(0xFFB3D8F5))
+                .padding(16.dp)
+        ) {
+            ComponentDetailFilm(judul = "ID Film", isinya = film.id_film)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailFilm(judul = "Judul Film", isinya = film.judul_film)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailFilm(judul = "Durasi", isinya = film.durasi)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailFilm(judul = "Deskripsi", isinya = film.deskripsi)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailFilm(judul = "Genre", isinya = film.genre)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailFilm(judul = "Rating Usia", isinya = film.rating_usia)
+        }
+    }
+}
+
+@Composable
 fun ComponentDetailFilm(
     modifier: Modifier = Modifier,
     judul:String,
