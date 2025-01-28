@@ -48,6 +48,70 @@ import com.example.uas.ui.viewmodel.penayangan.toTayang
 
 
 @Composable
+fun BodyDetailtayang(
+    modifier: Modifier = Modifier,
+    detailTayangUiState: DetailTayangUiState,
+    onDeleteClick: () -> Unit,
+    onTiketClick: () -> Unit
+) {
+    when {
+        detailTayangUiState.isLoading -> {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        detailTayangUiState.isError -> {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = detailTayangUiState.errorMessage,
+                    color = Color.Red
+                )
+            }
+        }
+        detailTayangUiState.isUiEventNotEmpty -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                ItemDetailTayang(
+                    penayangan = detailTayangUiState.detailTayangUiEvent.toTayang(),
+                    modifier = modifier
+                )
+
+                Spacer(modifier = Modifier.padding(8.dp))
+
+                // Button for deleting
+                Button(
+                    onClick = onDeleteClick,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = "Delete")
+                }
+
+                // Spacer for separation between the buttons
+                Spacer(modifier = Modifier.padding(8.dp))
+
+                // New button for tiket
+                Button(
+                    onClick = onTiketClick,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = "Beli Tiket")
+                }
+            }
+        }
+    }
+}
+
+
+@Composable
 fun ItemDetailTayang(
     modifier: Modifier = Modifier,
     penayangan: Penayangan,
