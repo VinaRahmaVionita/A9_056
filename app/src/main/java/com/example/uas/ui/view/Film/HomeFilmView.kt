@@ -59,6 +59,45 @@ import com.example.uas.ui.viewmodel.PenyediaViewModel
 
 
 @Composable
+fun HomeFilmStatus(
+    homeFilmUiState: HomeFilmUiState,
+    retryAction: () -> Unit,
+    modifier: Modifier = Modifier,
+    onDeleteClick: (Film) -> Unit = {},
+    onDetailClick: (String) -> Unit
+){
+    when (homeFilmUiState) {
+        is HomeFilmUiState.Loading -> OnLoading(modifier = modifier.fillMaxSize())
+        is HomeFilmUiState.Success ->
+            if (
+                homeFilmUiState.film.isEmpty()){
+                return
+                Box(
+                modifier = modifier.
+                fillMaxSize(), contentAlignment = Alignment.Center
+                ){
+                    Text(text = "Tidak ada Film" )
+                }
+            }else {
+                FilmLayout(
+                    film = homeFilmUiState.film,
+                    modifier = modifier.fillMaxWidth(),
+                    onDetailClick = {
+                        onDetailClick(it.id_film)
+                    },
+                    onDeleteClick = {
+                        onDeleteClick(it)
+                    }
+                )
+            }
+        is HomeFilmUiState.Error -> OnError(
+            retryAction,
+            modifier = modifier.fillMaxSize()
+        )
+    }
+}
+
+@Composable
 fun OnLoading(
     modifier:
     Modifier = Modifier) {
