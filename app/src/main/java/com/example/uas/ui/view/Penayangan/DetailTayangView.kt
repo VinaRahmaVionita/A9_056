@@ -45,6 +45,38 @@ import com.example.uas.ui.viewmodel.penayangan.DetailTayangUiState
 import com.example.uas.ui.viewmodel.penayangan.toTayang
 
 
+
+
+@Composable
+fun ItemDetailTayang(
+    modifier: Modifier = Modifier,
+    penayangan: Penayangan,
+){
+    Card(
+        modifier = modifier.fillMaxWidth().padding(top = 20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        )
+    ){
+        Column(
+            modifier = Modifier
+                .background(Color(0xFFB3D8F5))
+                .padding(16.dp)
+        ) {
+            ComponentDetailTayang(judul = "ID Penayangan", isinya = penayangan.id_penayangan)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailTayang(judul = "Film", isinya = penayangan.id_film)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailTayang(judul = "Studio", isinya = penayangan.id_studio)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailTayang(judul = "Tanggal Penayangan", isinya = penayangan.tanggal_penayangan)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailTayang(judul = "Penayangan", isinya = penayangan.harga_tiket)
+        }
+    }
+}
+
 @Composable
 fun ComponentDetailTayang(
     modifier: Modifier = Modifier,
