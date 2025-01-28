@@ -45,6 +45,56 @@ import com.example.uas.ui.viewmodel.tiket.DetailTiketViewModel
 import com.example.uas.ui.viewmodel.tiket.toTiket
 
 
+
+//Menampilkan konten detail tiket, memeriksa status UI (loading, error, atau data berhasil dimuat)
+@Composable
+fun BodyDetailTiket(
+    modifier: Modifier = Modifier,
+    detailTiketUiState: DetailTiketUiState,
+    onDeleteClick: () -> Unit
+) {
+    when {
+        detailTiketUiState.isLoading -> {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        detailTiketUiState.isError -> {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = detailTiketUiState.errorMessage,
+                    color = Color.Red
+                )
+            }
+        }
+        detailTiketUiState.isUiEventNotEmpty -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                ItemDetailTiket(
+                    tiket = detailTiketUiState.detailTiketUiEvent.toTiket(),
+                    modifier = modifier
+                )
+
+                Spacer(modifier = Modifier.padding(8.dp))
+                Button(
+                    onClick = onDeleteClick,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = "Delete")
+                }
+            }
+        }
+    }
+}
 //Menampilkan informasi detail tentang tiket yang dipilih
 @Composable
 fun ItemDetailTiket(
