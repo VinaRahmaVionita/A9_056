@@ -94,6 +94,37 @@ fun HomeMenuView(
                 }
                 Spacer(modifier = Modifier.height(16.dp))
 
+                //button studio
+                Button(
+                    onClick = onStudioClick,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.LightGray,
+                        contentColor = Color.Black
+                    ),
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(0.8f)
+                        .clip(RoundedCornerShape(12.dp)) // sisi bawah yg melingkar
+                        .shadow(20.dp, RoundedCornerShape(15.dp)) // Add shadow for elevation
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Home,
+                            contentDescription = "Manage Studio",
+                            modifier = Modifier.padding(end = 8.dp),
+                            tint = Color.Black
+                        )
+                        Text(
+                            text = "Manage Studio",
+                            fontSize = 25.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+
 
                 }
             }
