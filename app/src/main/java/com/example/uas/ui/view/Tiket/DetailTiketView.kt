@@ -45,6 +45,30 @@ import com.example.uas.ui.viewmodel.tiket.DetailTiketViewModel
 import com.example.uas.ui.viewmodel.tiket.toTiket
 
 
+//Menampilkan label dan nilai untuk setiap informasi detail tiket
+@Composable
+fun ComponentDetailTiket(
+    modifier: Modifier = Modifier,
+    judul:String,
+    isinya:String
+){
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.Start
+    ) {
+        Text(
+            text = "$judul : ",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Gray
+        )
+        Text(
+            text = isinya,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
 
 //Menampilkan dialog konfirmasi sebelum tiket dihapus
 @Composable
