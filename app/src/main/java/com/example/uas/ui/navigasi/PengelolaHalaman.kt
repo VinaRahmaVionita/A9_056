@@ -169,14 +169,21 @@ fun PengelolaHalaman(
                 }
             )
         }
-        composable(DestinasiInsertTiket.route) {
-            InsertTiketView(navigateBack = {
-                navController.navigate(DestinasiHomeTiket.route) {
-                    popUpTo(DestinasiHomeTiket.route) {
-                        inclusive = true
+        composable(
+            route = "inserttiket/{id_penayangan}",
+            arguments = listOf(navArgument("id_penayangan") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val idPenayangan = backStackEntry.arguments?.getString("id_penayangan") ?: ""
+            InsertTiketView(
+                id_penayangan = idPenayangan,  // Mengirim id_penayangan ke InsertTiketView
+                navigateBack = {
+                    navController.navigate(DestinasiHomePenayangan.route) {
+                        popUpTo(DestinasiHomePenayangan.route) {
+                            inclusive = true
+                        }
                     }
                 }
-            })
+            )
         }
         composable(
             DestinasiDetailTiket.routeWithArgs,
@@ -237,7 +244,7 @@ fun PengelolaHalaman(
         composable(
             DestinasiDetailPenayangan.routeWithArgs,
             arguments = listOf(
-                navArgument(DestinasiDetailPenayangan.id_penayangan){
+                navArgument(DestinasiDetailPenayangan.id_penayangan) {
                     type = NavType.StringType
                 }
             )
@@ -252,7 +259,7 @@ fun PengelolaHalaman(
                             }
                         }
                     },
-                    onEditClick =  {
+                    onEditClick = {
                         navController.navigate("${DestinasiUpdatePenayangan.route}/$it")
                     },
                     onTiketClick = {
