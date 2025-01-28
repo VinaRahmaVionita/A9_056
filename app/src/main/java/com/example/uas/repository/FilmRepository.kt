@@ -12,6 +12,7 @@ interface FilmRepository {
     suspend fun getFilmById(id_film:String): Film
 }
 
+//berkomunikasi dengan API dan mengelola data film di aplikasi
 class NetworkFilmRepository (
     private val filmApiService: FilmService
 ) : FilmRepository {

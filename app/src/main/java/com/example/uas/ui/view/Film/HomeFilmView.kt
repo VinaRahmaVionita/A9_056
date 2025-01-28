@@ -85,8 +85,8 @@ fun HomeFilmView(
             FloatingActionButton(
                 onClick = navigateToItemEntry,
                 shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.
-                padding(18.dp)
+                modifier = Modifier.padding(18.dp),
+                containerColor = Color(0xFF92BCEA)
             ) {
                 Icon(imageVector = Icons.Default.AddCircle, contentDescription = "Add Film")
             }

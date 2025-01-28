@@ -73,15 +73,6 @@ fun HomeTiketView(
                 }
             )
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = navigateToItemEntry,
-                shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.padding(18.dp)
-            ) {
-                Icon(imageVector = Icons.Default.AddCircle, contentDescription = "Add Tiket")
-            }
-        },
     ) { innerPadding ->
         // Pastikan konten di dalamnya dapat di-scroll dengan `LazyColumn`
         HomeTiketStatus(

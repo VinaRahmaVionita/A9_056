@@ -48,7 +48,6 @@ fun HomeMenuView(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(
-                        // Gradasi warna vertikal dari merah ke hitam
                         brush = Brush.verticalGradient(
                             colors = listOf(
                                 Color(0xFF95BEFA), // Biru muda
@@ -67,23 +66,21 @@ fun HomeMenuView(
                 Button(
                     onClick = onFilmClick,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Gray,
+                        containerColor = Color(0xFF64A9D7), // Biru Muda
                         contentColor = Color.Black
                     ),
                     modifier = Modifier
                         .padding(8.dp)
                         .fillMaxWidth(0.8f)
-                        .clip(RoundedCornerShape(12.dp)) // Rounded corners
-                        .shadow(8.dp, RoundedCornerShape(12.dp)) // Add shadow for elevation
+                        .clip(RoundedCornerShape(12.dp))
+                        .shadow(8.dp, RoundedCornerShape(12.dp))
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Default.Star,
                             contentDescription = "Manage Film",
                             modifier = Modifier.padding(end = 8.dp),
-                            tint = Color.Black
+                            tint = Color.White
                         )
                         Text(
                             text = "Manage Film",
@@ -92,29 +89,28 @@ fun HomeMenuView(
                         )
                     }
                 }
+
                 Spacer(modifier = Modifier.height(16.dp))
 
                 //button studio
                 Button(
                     onClick = onStudioClick,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.LightGray,
-                        contentColor = Color.Black
+                        containerColor = Color(0xFF1565C0), // Biru Tua
+                        contentColor = Color.White
                     ),
                     modifier = Modifier
                         .padding(8.dp)
                         .fillMaxWidth(0.8f)
-                        .clip(RoundedCornerShape(12.dp)) // sisi bawah yg melingkar
-                        .shadow(20.dp, RoundedCornerShape(15.dp)) // Add shadow for elevation
+                        .clip(RoundedCornerShape(12.dp))
+                        .shadow(20.dp, RoundedCornerShape(15.dp))
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Default.Home,
                             contentDescription = "Manage Studio",
                             modifier = Modifier.padding(end = 8.dp),
-                            tint = Color.Black
+                            tint = Color.White
                         )
                         Text(
                             text = "Manage Studio",
@@ -123,29 +119,28 @@ fun HomeMenuView(
                         )
                     }
                 }
+
                 Spacer(modifier = Modifier.height(16.dp))
 
                 //button penayangan
                 Button(
                     onClick = onPenayanganClick,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Gray,
+                        containerColor = Color(0xFF64A9D7), // Biru Muda
                         contentColor = Color.Black
                     ),
                     modifier = Modifier
                         .padding(8.dp)
                         .fillMaxWidth(0.8f)
-                        .clip(RoundedCornerShape(12.dp)) // sisi bawah yg melingkar
+                        .clip(RoundedCornerShape(12.dp))
                         .shadow(20.dp, RoundedCornerShape(15.dp))
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Default.DateRange,
                             contentDescription = "Manage Penayangan",
                             modifier = Modifier.padding(end = 8.dp),
-                            tint = Color.Black
+                            tint = Color.White
                         )
                         Text(
                             text = "Penayangan",
@@ -154,29 +149,28 @@ fun HomeMenuView(
                         )
                     }
                 }
+
                 Spacer(modifier = Modifier.height(16.dp))
 
                 //button tiket
                 Button(
                     onClick = onTiketClick,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.LightGray,
-                        contentColor = Color.Black
+                        containerColor = Color(0xFF1565C0), // Biru Tua
+                        contentColor = Color.White
                     ),
                     modifier = Modifier
                         .padding(8.dp)
                         .fillMaxWidth(0.8f)
-                        .clip(RoundedCornerShape(12.dp)) // Rounded corners
+                        .clip(RoundedCornerShape(12.dp))
                         .shadow(8.dp, RoundedCornerShape(12.dp))
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Default.AccountBox,
                             contentDescription = "Manage Tiket",
                             modifier = Modifier.padding(end = 8.dp),
-                            tint = Color.Black
+                            tint = Color.White
                         )
                         Text(
                             text = "Manage Tiket",

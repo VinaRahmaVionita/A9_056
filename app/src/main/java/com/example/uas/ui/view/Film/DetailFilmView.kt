@@ -72,7 +72,8 @@ fun DetailFilmView(
             FloatingActionButton(
                 onClick = onEditClick,
                 shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.padding(18.dp)
+                modifier = Modifier.padding(18.dp),
+                containerColor = Color(0xFF92BCEA)
             ) {
                 Icon(
                     imageVector = Icons.Default.Edit,
@@ -148,8 +149,8 @@ fun BodyDetailFilm(
                     onClick = onDeleteClick,
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF7399FF), // Warna biru muda
-                        contentColor = Color.Black
+                        containerColor = Color(0xFF3A66D9), // Warna biru muda
+                        contentColor = Color.White
                     )
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {

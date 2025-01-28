@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -71,7 +72,8 @@ fun DetailTiketView(
             FloatingActionButton(
                 onClick = onEditClick,
                 shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.padding(18.dp)
+                modifier = Modifier.padding(18.dp),
+                containerColor = Color(0xFF92BCEA)
             ) {
                 Icon(
                     imageVector = Icons.Default.Edit,
@@ -147,6 +149,10 @@ fun BodyDetailTiket(
                 Spacer(modifier = Modifier.padding(8.dp))
                 Button(
                     onClick = onDeleteClick,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF3A66D9), // Warna biru muda
+                        contentColor = Color.White
+                    ),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Delete")
