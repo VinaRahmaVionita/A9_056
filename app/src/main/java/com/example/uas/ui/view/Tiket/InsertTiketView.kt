@@ -45,6 +45,15 @@ import kotlinx.coroutines.launch
 
 
 
+// Fungsi untuk validasi form
+fun isFormValid(insertTiketUiEvent: InsertTiketUiEvent): Boolean {
+    return insertTiketUiEvent.id_tiket.isNotBlank() &&
+            insertTiketUiEvent.id_penayangan.isNotBlank() &&
+            insertTiketUiEvent.jumlah_tiket.isNotBlank() &&
+            insertTiketUiEvent.total_harga.isNotBlank() &&
+            insertTiketUiEvent.status_pembayaran.isNotBlank()
+}
+
 //Menyusun form untuk memasukkan data tiket.
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
