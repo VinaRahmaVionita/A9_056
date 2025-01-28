@@ -51,6 +51,31 @@ import com.example.uas.ui.viewmodel.penayangan.HomePenayanganViewModel
 
 
 @Composable
+fun TayangLayout(
+    penayangan: List<Penayangan>,
+    modifier: Modifier = Modifier,
+    onDetailClick: (Penayangan) -> Unit,
+    onDeleteClick: (Penayangan) -> Unit = {}
+) {
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(penayangan) { penayangan ->
+            TayangCard(
+                penayangan = penayangan,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onDetailClick(penayangan) },
+                onDeleteClick = { onDeleteClick(penayangan)
+                }
+            )
+        }
+    }
+}
+
+@Composable
 fun TayangCard(
     penayangan: Penayangan,
     modifier: Modifier = Modifier,
