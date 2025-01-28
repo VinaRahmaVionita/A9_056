@@ -53,6 +53,43 @@ import com.example.uas.ui.viewmodel.Studio.HomeStudioViewModel
 
 
 @Composable
+fun HomeStudioStatus(
+    homeStudioUiState: HomeStudioUiState,
+    retryAction: () -> Unit,
+    modifier: Modifier = Modifier,
+    onDeleteClick: (Studio) -> Unit = {},
+    onDetailClick: (String) -> Unit
+){
+    when (homeStudioUiState){
+        is HomeStudioUiState.Loading -> OnLoading(modifier = modifier.fillMaxSize())
+        is HomeStudioUiState.Success ->
+            if (homeStudioUiState.studio.isEmpty()){
+                Box(
+                modifier = modifier.
+                fillMaxSize(), contentAlignment = Alignment.Center
+                ) {
+                    Text(text = "Tidak ada data Studio" )
+                }
+            }else {
+                StudioLayout(
+                    studio = homeStudioUiState.studio,
+                    modifier = modifier.fillMaxWidth(),
+                    onDetailClick = {
+                        onDetailClick(it.id_studio)
+                    },
+                    onDeleteClick = {
+                        onDeleteClick(it)
+                    }
+                )
+            }
+        is HomeStudioUiState.Error -> OnError(
+            retryAction,
+            modifier = modifier.fillMaxSize()
+        )
+    }
+}
+
+@Composable
 fun OnLoading(
     modifier: Modifier = Modifier) {
     Image(
