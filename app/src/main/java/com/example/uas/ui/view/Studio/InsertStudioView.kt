@@ -29,7 +29,44 @@ import com.example.uas.ui.viewmodel.Studio.InsertStudioUiState
 import com.example.uas.ui.viewmodel.Studio.InsertStudioViewModel
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@Composable
+fun InsertStudioView(
+    navigateBack: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: InsertStudioViewModel = viewModel(factory = PenyediaViewModel.Factory)
+) {
+    val coroutineScope = rememberCoroutineScope()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
+    Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            CostumeTopAppBar(
+                title = DestinasiInsertStudio.titleRes,
+                canNavigateBack = true,
+                scrollBehavior = scrollBehavior,
+                navigateUp = navigateBack
+            )
+        }
+    ) { innerPadding ->
+        EntryStudio(
+            insertStudioUiState = viewModel.uiState,
+            onStudioValueChange = viewModel::updateInsertStdState,
+            onSaveClick = {
+                coroutineScope.launch {
+                    viewModel.InsertStd()
+                    navigateBack()
+                }
+            },
+            modifier = Modifier
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
+                .fillMaxWidth()
+        )
+    }
+}
 
 @Composable
 fun EntryStudio(
