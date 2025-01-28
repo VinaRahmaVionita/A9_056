@@ -50,7 +50,55 @@ import com.example.uas.ui.viewmodel.PenyediaViewModel
 import com.example.uas.ui.viewmodel.Studio.HomeStudioUiState
 import com.example.uas.ui.viewmodel.Studio.HomeStudioViewModel
 
-
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeStudioView(
+    navigateToItemEntry: () -> Unit,
+    modifier: Modifier = Modifier,
+    onDetailClick: (String) -> Unit = {},
+    viewModel: HomeStudioViewModel = viewModel(factory = PenyediaViewModel.Factory)
+){
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = modifier
+            .fillMaxSize() // Isi layar penuh
+            .background(Color(0xFF0AC4B2))
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            CostumeTopAppBar(
+                title = DestinasiHomeStudio.titleRes,
+                canNavigateBack = false,
+                scrollBehavior = scrollBehavior,
+                onRefresh = {
+                    viewModel.getStudio()
+                }
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = navigateToItemEntry,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.
+                padding(18.
+                dp)
+            ) {
+                Icon(imageVector = Icons.Default.AddCircle, contentDescription = "Add Mahasiswa")
+            }
+        },
+    ) { innerPadding ->
+        HomeStudioStatus(
+            homeStudioUiState = viewModel.stdUiState,
+            retryAction = { viewModel.getStudio() },
+            modifier = Modifier.padding(innerPadding),
+            onDetailClick = onDetailClick,
+            onDeleteClick = {
+                viewModel.deleteStudio(it.id_studio)
+                viewModel.getStudio()
+            }
+        )
+    }
+}
 
 @Composable
 fun HomeStudioStatus(
