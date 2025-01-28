@@ -45,6 +45,38 @@ import kotlinx.coroutines.launch
 
 
 
+//Menyusun form untuk memasukkan data tiket.
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@Composable
+fun EntryBody(
+    insertTiketUiState: InsertTiketUiState,
+    onTiketValueChange: (InsertTiketUiEvent) -> Unit,
+    onSaveClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(18.dp),
+        modifier = modifier
+            .padding(12.dp)
+    ) {
+        FormTiket(
+            insertTiketUiEvent = insertTiketUiState.insertTiketUiEvent,
+            onValueChange = onTiketValueChange,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Button(
+            onClick = onSaveClick,
+            shape = MaterialTheme.shapes.small,
+            modifier = Modifier
+                .fillMaxWidth(),
+            enabled = isFormValid(insertTiketUiState.insertTiketUiEvent)
+        ) {
+            Text(text = "Simpan")
+        }
+    }
+}
+
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
 fun FormTiket(
