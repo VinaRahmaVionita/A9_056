@@ -36,7 +36,59 @@ import com.example.uas.ui.viewmodel.penayangan.UpdatePenayanganViewModel
 import com.example.uas.ui.viewmodel.penayangan.UpdateTayangUiEvent
 import kotlinx.coroutines.launch
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@Composable
+fun UpdateTayangView(
+    id_penayangan: String,
+    onBack: () -> Unit,
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: UpdatePenayanganViewModel = viewModel(factory = PenyediaViewModel.Factory)
+) {
+    val uiState = viewModel.uiState
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
 
+    LaunchedEffect(uiState.snackBarMessage) {
+        uiState.snackBarMessage?.let { message ->
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(message)
+                viewModel.resetSnackBarMessage()
+            }
+        }
+    }
+
+    Scaffold(
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        topBar = {
+            CostumeTopAppBar(
+                title = "Update Penayangan",
+                canNavigateBack = true,
+                navigateUp = onBack
+            )
+        }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp)
+        ) {
+            FormTayang(
+                insertTayangUiEvent = uiState.penayanganEvent,
+                onValueChange = viewModel::updateTayangState,
+                onSaveClick = {
+                    coroutineScope.launch {
+                        viewModel.updateTayang()
+                        onNavigate()
+                    }
+                }
+            )
+        }
+    }
+}
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
