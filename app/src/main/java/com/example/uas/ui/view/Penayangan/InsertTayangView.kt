@@ -44,6 +44,36 @@ import java.util.Calendar
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
+fun EntryTayang(
+    insertTayangUiState: InsertTayangUiState,
+    onTayangValueChange: (InsertTayangUiEvent) -> Unit,
+    onSaveClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val isFormValid = isFormValid(insertTayangUiState.insertTayangUiEvent)
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(18.dp),
+        modifier = modifier.padding(12.dp)
+    ) {
+        FormTayang(
+            insertTayangUiEvent = insertTayangUiState.insertTayangUiEvent,
+            onValueChange = onTayangValueChange,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Button(
+            onClick = onSaveClick,
+            enabled = isFormValid, // Tombol hanya aktif jika form valid
+            shape = MaterialTheme.shapes.small,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Simpan")
+        }
+    }
+}
+
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@Composable
 fun FormTayang(
     insertTayangUiEvent: InsertTayangUiEvent,
     modifier: Modifier = Modifier,
