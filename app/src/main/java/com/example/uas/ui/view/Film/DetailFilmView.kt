@@ -47,7 +47,65 @@ import com.example.uas.ui.viewmodel.Film.DetailFilmViewModel
 import com.example.uas.ui.viewmodel.Film.toFilm
 import com.example.uas.ui.viewmodel.PenyediaViewModel
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DetailFilmView(
+    modifier: Modifier = Modifier,
+    NavigateBack: () -> Unit,
+    onEditClick: () -> Unit,
+    onDeleteClick: () -> Unit = { },
+    viewModel: DetailFilmViewModel = viewModel(factory = PenyediaViewModel.Factory)
+){
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            CostumeTopAppBar(
+                title = DestinasiDetailFilm.titleRes,
+                canNavigateBack = true,
+                scrollBehavior = scrollBehavior,
+                navigateUp = NavigateBack
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onEditClick,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(18.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "Edit Data Film"
+                )
+            }
+        }
+    ) { innerPadding ->
+        var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
 
+        BodyDetailFilm(
+            detailFilmUiState = viewModel.detailFilmUiState,
+            modifier = Modifier.padding(innerPadding),
+            onDeleteClick = {
+                deleteConfirmationRequired = true
+            }
+        )
+
+        if (deleteConfirmationRequired) {
+            DeleteConfirmationDialog(
+                onDeleteConfirm = {
+                    viewModel.deleteFilm()
+                    onDeleteClick()
+                    deleteConfirmationRequired = false
+                },
+                onDeleteCancel = {
+                    deleteConfirmationRequired = false
+                },
+                modifier = Modifier.padding(8.dp)
+            )
+        }
+    }
+}
 
 @Composable
 fun BodyDetailFilm(
