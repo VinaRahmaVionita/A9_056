@@ -44,6 +44,31 @@ import java.util.Calendar
 
 
 @Composable
+fun EntryBodyFilm(
+    insertFilmUiState: InsertFilmUiState,
+    onFilmValueChange: (InsertFilmUiEvent) -> Unit,
+    onSaveClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    // Cek apakah form valid
+    val isFormValid = isFormValid(insertFilmUiState.insertFilmUiEvent)
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(18.dp),
+        modifier = modifier
+            .padding(12.dp)
+    ) {
+        FormFilm(
+            insertFilmUiEvent = insertFilmUiState.insertFilmUiEvent,
+            onValueChange = onFilmValueChange,
+            modifier = Modifier.fillMaxWidth(),
+            onSaveClick = onSaveClick,
+            isFormValid = isFormValid // Pass validasi form ke dalam FormFilm
+        )
+    }
+}
+
+@Composable
 fun FormFilm(
     insertFilmUiEvent: InsertFilmUiEvent,
     modifier: Modifier = Modifier,
