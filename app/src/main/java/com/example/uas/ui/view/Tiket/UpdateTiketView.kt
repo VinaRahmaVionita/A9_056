@@ -39,6 +39,60 @@ import com.example.uas.ui.viewmodel.tiket.UpdateTiketViewModel
 import kotlinx.coroutines.launch
 
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@Composable
+//Menampilkan layar untuk memperbarui data tiket
+fun UpdateTiketView(
+    id_tiket: String,
+    onBack: () -> Unit,
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: UpdateTiketViewModel = viewModel(factory = PenyediaViewModel.Factory)
+) {
+    val uiState = viewModel.uiState
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+    //Menangani tampilan snackbar ketika ada pesan yang perlu ditampilkan.
+    LaunchedEffect(uiState.snackBarMessage) {
+        uiState.snackBarMessage?.let { message ->
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(message)
+                viewModel.resetsnackBarMessage()
+            }
+        }
+    }
+
+    Scaffold(
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        topBar = {
+            CostumeTopAppBar(
+                title = "Update Tiket",
+                canNavigateBack = true,
+                navigateUp = onBack
+            )
+        }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp)
+        ) {
+            FormTiket(
+                insertTiketUiEvent = uiState.tiketEvent,
+                onValueChange = viewModel::updateTiketState,
+                onSaveClick = {
+                    coroutineScope.launch {
+                        viewModel.updateTiket()
+                        onNavigate()
+                    }
+                }
+            )
+        }
+    }
+}
 
 //Menampilkan form untuk mengedit data tiket
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
