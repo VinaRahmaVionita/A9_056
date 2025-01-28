@@ -43,7 +43,51 @@ import com.example.uas.ui.viewmodel.tiket.InsertTiketViewModel
 import kotlinx.coroutines.launch
 
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun InsertTiketView(
+    id_penayangan: String,
+    navigateBack: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: InsertTiketViewModel = viewModel(factory = PenyediaViewModel.Factory)
+){
+    val coroutineScope = rememberCoroutineScope()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
+    Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            CostumeTopAppBar(
+                title = DestinasiInsertTiket.titleRes,
+                canNavigateBack = true,
+                scrollBehavior = scrollBehavior,
+                navigateUp = navigateBack
+            )
+        }
+    ){ innerPadding ->
+        EntryBody(
+            insertTiketUiState = viewModel.uiState,
+            onTiketValueChange = viewModel::updateInsertTiketState,
+            onSaveClick = {
+                // Validasi input
+                if (isFormValid(viewModel.uiState.insertTiketUiEvent)) {
+                    coroutineScope.launch {
+                        viewModel.insertTiket()
+                        navigateBack()
+                    }
+                } else {
+                    // Tampilkan pesan error jika form tidak valid
+                    println("Form tidak lengkap!")
+                }
+            },
+            modifier = Modifier
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
+                .fillMaxWidth()
+        )
+    }
+}
 
 // Fungsi untuk validasi form
 fun isFormValid(insertTiketUiEvent: InsertTiketUiEvent): Boolean {
