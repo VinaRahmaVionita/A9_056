@@ -50,6 +50,45 @@ import com.example.uas.ui.viewmodel.tiket.HomeTiketViewModel
 
 
 
+//Menampilkan berbagai status dari daftar tiket
+@Composable
+fun HomeTiketStatus(
+    homeTiketUiState: HomeTiketUiState,
+    retryAction: () -> Unit,
+    modifier: Modifier = Modifier,
+    onDeleteClick: (Tiket) -> Unit = {},
+    onDetailClick: (String) -> Unit
+) {
+    when (homeTiketUiState) {
+        is HomeTiketUiState.Loading -> OnLoading(modifier = modifier.fillMaxSize())
+        is HomeTiketUiState.Success -> {
+            if (homeTiketUiState.tiket.isEmpty()) {
+                Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text(text = "Tidak ada data Tiket")
+                }
+            } else {
+                TiketLayout(
+                    tiket = homeTiketUiState.tiket,
+                    modifier = modifier.fillMaxWidth(),
+                    onDetailClick = {
+                        onDetailClick(it.id_tiket)
+                    },
+                    onDeleteClick = {
+                        onDeleteClick(it)
+                    }
+                )
+            }
+        }
+        is HomeTiketUiState.Error -> OnError(
+            retryAction,
+            modifier = modifier.fillMaxSize()
+        )
+        else -> {
+            Text(text = "Unknown error occurred")
+        }
+    }
+}
+
 
 @Composable
 fun OnLoading(
