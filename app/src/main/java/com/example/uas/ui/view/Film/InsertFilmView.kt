@@ -44,6 +44,145 @@ import java.util.Calendar
 
 
 @Composable
+fun FormFilm(
+    insertFilmUiEvent: InsertFilmUiEvent,
+    modifier: Modifier = Modifier,
+    onValueChange: (InsertFilmUiEvent) -> Unit = {},
+    enabled: Boolean = true,
+    onSaveClick: () -> Unit,
+    isFormValid: Boolean // Menerima parameter untuk validasi form
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        val rating_usia = listOf("R13+", "SU", "R17+")
+
+        // ID Film
+        OutlinedTextField(
+            value = insertFilmUiEvent.id_film,
+            onValueChange = { onValueChange(insertFilmUiEvent.copy(id_film = it)) },
+            label = { Text("ID Film") },
+            isError = insertFilmUiEvent.id_film.isBlank(),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
+        if (insertFilmUiEvent.id_film.isBlank()) {
+            Text(
+                text = "ID Film tidak boleh kosong",
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+
+        // Judul Film
+        OutlinedTextField(
+            value = insertFilmUiEvent.judul_film,
+            onValueChange = { onValueChange(insertFilmUiEvent.copy(judul_film = it)) },
+            label = { Text("Judul Film") },
+            isError = insertFilmUiEvent.judul_film.isBlank(),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
+        if (insertFilmUiEvent.judul_film.isBlank()) {
+            Text(
+                text = "Judul Film tidak boleh kosong",
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+
+        // Durasi Film dengan TimePicker
+        TimePickerButton(
+            insertFilmUiEvent = insertFilmUiEvent,
+            onValueChange = onValueChange,
+            enabled = enabled
+        )
+        if (insertFilmUiEvent.durasi.isBlank()) {
+            Text(
+                text = "Durasi Film tidak boleh kosong",
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+
+        // Deskripsi Film
+        OutlinedTextField(
+            value = insertFilmUiEvent.deskripsi,
+            onValueChange = { onValueChange(insertFilmUiEvent.copy(deskripsi = it)) },
+            label = { Text("Deskripsi Film") },
+            isError = insertFilmUiEvent.deskripsi.isBlank(),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
+        if (insertFilmUiEvent.deskripsi.isBlank()) {
+            Text(
+                text = "Deskripsi Film tidak boleh kosong",
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+
+        // Genre Film
+        OutlinedTextField(
+            value = insertFilmUiEvent.genre,
+            onValueChange = { onValueChange(insertFilmUiEvent.copy(genre = it)) },
+            label = { Text("Genre Film") },
+            isError = insertFilmUiEvent.genre.isBlank(),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
+        if (insertFilmUiEvent.genre.isBlank()) {
+            Text(
+                text = "Genre Film tidak boleh kosong",
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+
+        // Rating Usia
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(text = "Rating Usia")
+        Row(modifier = Modifier.fillMaxWidth()) {
+            rating_usia.forEach { usia ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    RadioButton(
+                        selected = insertFilmUiEvent.rating_usia == usia,
+                        onClick = {
+                            onValueChange(insertFilmUiEvent.copy(rating_usia = usia))
+                        },
+                    )
+                    Text(text = usia)
+                }
+            }
+        }
+        if (insertFilmUiEvent.rating_usia.isBlank()) {
+            Text(
+                text = "Rating Usia harus dipilih",
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+
+        // Button Simpan
+        Button(
+            onClick = { onSaveClick() },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = isFormValid // Tombol hanya aktif jika form valid
+        ) {
+            Text(text = "Simpan")
+        }
+    }
+}
+
+@Composable
 fun TimePickerButton(
     insertFilmUiEvent: InsertFilmUiEvent,
     onValueChange: (InsertFilmUiEvent) -> Unit,
