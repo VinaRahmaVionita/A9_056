@@ -93,10 +93,13 @@ object DestinasiHomeTiket : DestinasiNavigasi {
     override val titleRes = "Home Tiket"
 }
 
-object DestinasiInsertTiket : DestinasiNavigasi {
-    override val route = "inserttiket/{id_penayangan}/{id_film}"
-    override val titleRes = "Insert Tiket"
+object DestinasiInsertTiket {
+    const val route = "inserttiket"
+    const val routeWithArgs = "inserttiket/{id_penayangan}"
+    val titleRes = "Insert Tiket"
+    const val id_penayangan = "id_penayangan"
 }
+
 
 object DestinasiUpdateTiket : DestinasiNavigasi {
     override val route = "updatetiket"
