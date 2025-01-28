@@ -40,7 +40,59 @@ import com.example.uas.ui.viewmodel.penayangan.InsertTayangUiState
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun InsertTayangView(
+    navigateBack: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: InsertPenayanganViewModel = viewModel(factory = PenyediaViewModel.Factory)
+) {
+    val coroutineScope = rememberCoroutineScope()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
+    Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            CostumeTopAppBar(
+                title = DestinasiInsertPenayangan.titleRes,
+                canNavigateBack = true,
+                scrollBehavior = scrollBehavior,
+                navigateUp = navigateBack
+            )
+        }
+    ){ innerPadding ->
+        EntryTayang(
+            insertTayangUiState = viewModel.uiState,
+            onTayangValueChange = viewModel::updateInsertTayangState,
+            onSaveClick = {
+                // Validasi form
+                if (isFormValid(viewModel.uiState.insertTayangUiEvent)) {
+                    coroutineScope.launch {
+                        viewModel.insertTayang()
+                        navigateBack()
+                    }
+                } else {
+                    // Tampilkan pesan error jika form tidak valid
+                    println("Form tidak lengkap!")
+                }
+            },
+            modifier = Modifier
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
+                .fillMaxWidth()
+        )
+    }
+}
+
+// Fungsi untuk validasi form
+fun isFormValid(insertTayangUiEvent: InsertTayangUiEvent): Boolean {
+    return insertTayangUiEvent.id_penayangan.isNotBlank() &&
+            insertTayangUiEvent.id_film.isNotBlank() &&
+            insertTayangUiEvent.id_studio.isNotBlank() &&
+            insertTayangUiEvent.tanggal_penayangan.isNotBlank() &&
+            insertTayangUiEvent.harga_tiket.isNotBlank()
+}
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
