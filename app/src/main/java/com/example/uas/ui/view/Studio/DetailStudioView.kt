@@ -47,6 +47,33 @@ import com.example.uas.ui.viewmodel.Studio.toStd
 
 
 @Composable
+fun ItemDetailStd(
+    modifier: Modifier = Modifier,
+    studio: Studio,
+){
+    Card(
+        modifier = modifier.fillMaxWidth().padding(top = 20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        )
+    ){
+        Column(
+            modifier = Modifier
+                .background(Color(0xFFB3D8F5))
+                .padding(16.dp)
+        ) {
+            ComponentDetailStd(judul = "ID Studio", isinya = studio.id_studio)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailStd(judul = "Nama Studio", isinya = studio.nama_studio)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailStd(judul = "Kapasitas", isinya = studio.kapasitas)
+            Spacer(modifier = Modifier.padding(4.dp))
+        }
+    }
+}
+
+@Composable
 fun ComponentDetailStd(
     modifier: Modifier = Modifier,
     judul:String,
