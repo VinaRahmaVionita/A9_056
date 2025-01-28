@@ -56,7 +56,55 @@ import com.example.uas.ui.viewmodel.Film.HomeFilmUiState
 import com.example.uas.ui.viewmodel.Film.HomeFilmViewModel
 import com.example.uas.ui.viewmodel.PenyediaViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@Composable
+fun HomeFilmView(
+    navigateToItemEntry: () -> Unit,
+    modifier: Modifier = Modifier,
+    onDetailClick: (String) -> Unit = {},
+    viewModel: HomeFilmViewModel = viewModel (factory = PenyediaViewModel.Factory)
+){
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold (
+        modifier = modifier
+            .fillMaxSize() // Isi layar penuh
+            .background(Color(0xFF0AC4B2)) // Warna biru tua (Dark Blue)
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            CostumeTopAppBar(
+                title = DestinasiHomeFilm.titleRes,
+                canNavigateBack = false,
+                scrollBehavior = scrollBehavior,
+                onRefresh = {
+                    viewModel.getFilm()
+                }
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = navigateToItemEntry,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.
+                padding(18.dp)
+            ) {
+                Icon(imageVector = Icons.Default.AddCircle, contentDescription = "Add Film")
+            }
+        },
+    ){ innerPadding ->
+        HomeFilmStatus(
+            homeFilmUiState = viewModel.filmUiState,
+            retryAction = { viewModel.getFilm() },
+            modifier = Modifier.padding(innerPadding),
+            onDetailClick = onDetailClick,
+            onDeleteClick = {
+                viewModel.deleteFilm(it.id_film)
+                viewModel.getFilm()
+            }
+        )
 
+    }
+}
 
 @Composable
 fun HomeFilmStatus(
