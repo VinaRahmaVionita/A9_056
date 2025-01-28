@@ -32,6 +32,35 @@ import kotlinx.coroutines.launch
 
 
 @Composable
+fun EntryStudio(
+    insertStudioUiState: InsertStudioUiState,
+    onStudioValueChange: (InsertStudioUiEvent) -> Unit,
+    onSaveClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(18.dp),
+        modifier = modifier.padding(12.dp)
+    ) {
+        FormStudio(
+            insertStudioUiEvent = insertStudioUiState.insertStudioUiEvent,
+            onValueChange = onStudioValueChange,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Button(
+            onClick = onSaveClick,
+            shape = MaterialTheme.shapes.small,
+            modifier = Modifier.fillMaxWidth(),
+            enabled = insertStudioUiState.insertStudioUiEvent.id_studio.isNotBlank() &&
+                    insertStudioUiState.insertStudioUiEvent.nama_studio.isNotBlank() &&
+                    insertStudioUiState.insertStudioUiEvent.kapasitas.isNotBlank()
+        ) {
+            Text(text = "Simpan")
+        }
+    }
+}
+
+@Composable
 fun FormStudio(
     insertStudioUiEvent: InsertStudioUiEvent,
     modifier: Modifier = Modifier,
