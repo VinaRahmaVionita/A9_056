@@ -49,6 +49,32 @@ import com.example.uas.ui.viewmodel.tiket.HomeTiketUiState
 import com.example.uas.ui.viewmodel.tiket.HomeTiketViewModel
 
 
+
+//Menampilkan daftar tiket
+@Composable
+fun TiketLayout(
+    tiket: List<Tiket>,
+    modifier: Modifier = Modifier,
+    onDetailClick: (Tiket) -> Unit,
+    onDeleteClick: (Tiket) -> Unit = {}
+) {
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(tiket) { tiket ->
+            TiketCard(
+                tiket = tiket,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onDetailClick(tiket) },
+                onDeleteClick = { onDeleteClick(tiket)
+                }
+            )
+        }
+    }
+}
 //Menampilkan detail tiket individual dalam layout kartu.
 @Composable
 fun TiketCard(
