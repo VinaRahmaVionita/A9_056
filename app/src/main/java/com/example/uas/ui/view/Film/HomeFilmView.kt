@@ -57,6 +57,32 @@ import com.example.uas.ui.viewmodel.Film.HomeFilmViewModel
 import com.example.uas.ui.viewmodel.PenyediaViewModel
 
 
+
+@Composable
+fun FilmLayout(
+    film: List<Film>,
+    modifier: Modifier = Modifier,
+    onDetailClick: (Film) -> Unit,
+    onDeleteClick: (Film) -> Unit = {}
+){
+   LazyColumn(
+       modifier = modifier,
+       contentPadding = PaddingValues(16.dp),
+       verticalArrangement = Arrangement.spacedBy(16.dp)
+   ) {
+       items(film){ film ->
+           FilmCard(
+               film = film,
+               modifier = Modifier
+                   .fillMaxWidth()
+                   .clickable { onDetailClick(film) },
+               onDeleteClick = { onDeleteClick(film)
+               }
+           )
+       }
+   }
+}
+
 @Composable
 fun FilmCard(
     film: Film,
