@@ -43,6 +43,49 @@ import java.util.Calendar
 
 
 
+@Composable
+fun TimePickerButton(
+    insertFilmUiEvent: InsertFilmUiEvent,
+    onValueChange: (InsertFilmUiEvent) -> Unit,
+    enabled: Boolean
+) {
+    var isTimePickerVisible by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+    val initialHour = calendar.get(Calendar.HOUR_OF_DAY)
+    val initialMinute = calendar.get(Calendar.MINUTE)
+
+    // Menampilkan TimePickerDialog ketika tombol ditekan
+    if (isTimePickerVisible) {
+        TimePickerDialog(
+            context,
+            { _, hourOfDay, minute ->
+                // Default to 0 seconds if seconds are not handled by the dialog
+                val formattedTime = String.format("%02d:%02d:00", hourOfDay, minute)
+                onValueChange(insertFilmUiEvent.copy(durasi = formattedTime)) // Update durasi
+                isTimePickerVisible = false // Reset kondisi setelah memilih waktu
+            },
+            initialHour,
+            initialMinute,
+            true
+        ).show()
+    }
+
+    // Tombol untuk memilih waktu, menampilkan durasi yang sudah dipilih
+    Button(
+        onClick = { isTimePickerVisible = true }, // Aktifkan dialog pemilih waktu
+        enabled = enabled,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        val buttonText = if (insertFilmUiEvent.durasi.isNotEmpty()) {
+            insertFilmUiEvent.durasi // Display the selected duration in HH:mm:ss format
+        } else {
+            "Pilih Durasi" // Default text
+        }
+        Text(text = buttonText)
+    }
+}
+
 // Fungsi validasi form
 fun isFormValid(insertFilmUiEvent: InsertFilmUiEvent): Boolean {
     return insertFilmUiEvent.id_film.isNotBlank() &&
